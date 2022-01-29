@@ -1,0 +1,9 @@
+.card-menu {
+  height: calc(100% - 15px);
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  height: 50% !important;
+  justify-content: flex-end;
+}

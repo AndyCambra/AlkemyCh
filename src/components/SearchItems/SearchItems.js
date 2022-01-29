@@ -1,34 +1,16 @@
 import { Form, Button, Row, Col } from 'react-bootstrap'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import ItemCard from '../ItemCard/ItemCard'
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const SearchItems = () => {
+const SearchItems = ({onSearch}) => {
   const [searchData, setSearchData] = useState()
-  const [searchedItems, setSearchedItems] = useState([])
   /* const [loading, setLoading] = useState(true) */
 
   const getSearchImput = (e) => {
     const { value } = e.target
     setSearchData(value)
-    console.log('data', searchData)
+    value.lenght > 2 ?? onSearch(value)
   }
-  useEffect(() => {
-    const getDataSearch = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.spoonacular.com/food/menuItems/search?apiKey=807497155ff343caa4fdf8ca088f7b18&query=${searchData}`,
-        )
-        console.log(response)
-        setSearchedItems(response.data.menuItems)
-        console.log(searchedItems)
-        /*  setLoading(false) */
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    return
-  }, [])
 
   return (
     <>
@@ -42,15 +24,6 @@ const SearchItems = () => {
                 placeholder="Search"
               />
             </Col>
-            <Col sm={4}>
-              <Button
-                onClick={() => getDataSearch()}
-                variant="primary"
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Col>
           </Row>
         </Form.Group>
       </Form>
@@ -58,4 +31,9 @@ const SearchItems = () => {
     </>
   )
 }
+
+SearchItems.propTypes = {
+  onSearch: PropTypes.func.isRequired
+}
+
 export default SearchItems

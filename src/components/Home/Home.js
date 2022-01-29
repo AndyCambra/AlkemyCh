@@ -11,25 +11,67 @@ const { REACT_APP_APIKEY } = process.env
 
 const Home = () => {
   const isLogged = localStorage.getItem('token')
-  const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [items, setItems] = useState([
+    /* {
+      id: 419357,
+      title: 'Burger Sliders',
+      restaurantChain: 'Hooters',
+      image: 'https://images.spoonacular.com/file/wximages/419357-312x231.png',
+      imageType: 'png',
+      servings: {
+        number: 1,
+        size: 2,
+        unit: 'oz',
+      },
+    },
+    {
+      id: 424571,
+      title: 'Bacon King Burger',
+      restaurantChain: 'Burger King',
+      image: 'https://images.spoonacular.com/file/wximages/424571-312x231.png',
+      imageType: 'png',
+      servings: {
+        number: 1,
+        size: 2,
+        unit: 'oz',
+      },
+    }, */
+  ])
+  const [loading, setLoading] = useState()
+
+  const getData = async () => {
+    try {
+      console.log({ REACT_APP_APIKEY })
+      const response = await axios.get(
+        `https://api.spoonacular.com/food/menuItems/search?apiKey=${REACT_APP_APIKEY}&query=all&addMenuItemInformation=true`,
+      )
+      console.log(response)
+      setItems(response.data.menuItems)
+      console.log(111, items)
+      setLoading(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getDataSearch = async (term) => {
+    try {
+      const response = await axios.get(
+        `https://api.spoonacular.com/food/menuItems/search?apiKey=${REACT_APP_APIKEY}&query=${term}`,
+      )
+      setItems(response.data.menuItems)
+      console.log(11, items)
+      setLoading(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(
-          'https://api.spoonacular.com/food/menuItems/search?apiKey=807497155ff343caa4fdf8ca088f7b18&query=all&addMenuItemInformation=true',
-        )
-        console.log(response)
-        setItems(response.data.menuItems)
-        console.log(111, items)
-        setLoading(false)
-      } catch (error) {
-        console.error(error)
-      }
-    }
     getData()
   }, [])
+
+  console.log(14, items)
 
   return (
     <>
@@ -42,14 +84,14 @@ const Home = () => {
             <h1>Menú</h1>
           </Col>
           <Col>
-            <SearchItems />
+            <SearchItems onSearch={getDataSearch} />
           </Col>
         </Row>
       </Container>
       {loading ? (
         <h2>Cargando...</h2>
       ) : (
-        <ItemCard key={items.id} item={items} />
+        <ItemCard key={items.id} items={items} />
       )}
     </>
   )
