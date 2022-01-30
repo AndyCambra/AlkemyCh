@@ -11,32 +11,7 @@ const { REACT_APP_APIKEY } = process.env
 
 const Home = () => {
   const isLogged = localStorage.getItem('token')
-  const [items, setItems] = useState([
-    /* {
-      id: 419357,
-      title: 'Burger Sliders',
-      restaurantChain: 'Hooters',
-      image: 'https://images.spoonacular.com/file/wximages/419357-312x231.png',
-      imageType: 'png',
-      servings: {
-        number: 1,
-        size: 2,
-        unit: 'oz',
-      },
-    },
-    {
-      id: 424571,
-      title: 'Bacon King Burger',
-      restaurantChain: 'Burger King',
-      image: 'https://images.spoonacular.com/file/wximages/424571-312x231.png',
-      imageType: 'png',
-      servings: {
-        number: 1,
-        size: 2,
-        unit: 'oz',
-      },
-    }, */
-  ])
+  const [items, setItems] = useState([])
   const [loading, setLoading] = useState()
 
   const getData = async () => {
@@ -65,6 +40,7 @@ const Home = () => {
     } catch (error) {
       console.error(error)
     }
+    console.log(17, term.length)
   }
 
   useEffect(() => {

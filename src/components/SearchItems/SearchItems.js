@@ -1,15 +1,17 @@
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const SearchItems = ({onSearch}) => {
+const SearchItems = ({ onSearch }) => {
   const [searchData, setSearchData] = useState()
-  /* const [loading, setLoading] = useState(true) */
 
   const getSearchImput = (e) => {
     const { value } = e.target
     setSearchData(value)
-    value.lenght > 2 ?? onSearch(value)
+    if (value.length > 2) {
+      onSearch(value)
+    }
+    console.log(value.length)
   }
 
   return (
@@ -27,13 +29,12 @@ const SearchItems = ({onSearch}) => {
           </Row>
         </Form.Group>
       </Form>
-      {/*  {loading ? <h2>Cargando...</h2> : <ItemCard item={searchedItems} />} */}
     </>
   )
 }
 
 SearchItems.propTypes = {
-  onSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired,
 }
 
 export default SearchItems
